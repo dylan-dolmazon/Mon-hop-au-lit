@@ -1,0 +1,312 @@
+{% for case in cases %}
+    {% for player in case.players %}
+        {% if player.turn %}
+            <!-- The Modal -->
+            <div id="myModal" class="modal">
+
+                <!-- Modal content -->
+                <div class="modal-content">
+                    <div class="modal-header" style="background-color: {{ player.color }}">
+
+                        <h2>{{ player.name }} c'est ton tour <span onclick="hideModal()">!</span></h2>
+                    </div>
+                    <div class="modal-body">
+                        <div id="card-content">
+                            {% include 'cases/show.html.twig' %}
+                        </div>
+
+
+                    </div>
+                    <div class="modal-footer" style="background-color: {{ player.color }}">
+
+                        {% include 'cases/action.html.twig' with {'id': case.id, 'player': player} %}
+
+                    </div>
+                </div>
+
+            </div>
+        {% endif %}
+    {% endfor %}
+{% endfor %}
+
+<div class="board">
+    <div class="center">
+        <div class="show-players">
+            <h2>All players</h2>
+            <div id="button">
+                <a href="{{ path('app_player_new') }}"><i id="add-player" class="fa-solid fa-plus"></i></a>
+            </div>
+            <div class="left-players">
+                {% for player in players %}
+                    <div class="onePlayer">
+                            <div>
+                                <p class="show-player" {% if player == nextPlayer %} id="player-turn" {% endif %}>{{ player.name }}: {{ player.money }}€</p>
+                                <div class="icon-player" style="color: {{ player.color }}; margin-left: 10px">{{ player.icon.value|raw }}</div>
+                            </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="right-players">
+                {% for player in players %}
+                <div class="onePlayer">
+                    {% if loop.index > 5 %}
+                    <div>
+                        <p class="show-player" {% if player == nextPlayer %} id="player-turn" {% endif %}>{{ player.name }}: {{ player.money }}€</p>
+                        <div class="icon-player" style="color: {{ player.color }}; margin-left: 10px"{{ player.icon.value|raw }}</div>
+
+                </div>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+
+
+    </div>
+    <div class="community-chest-deck">
+        <h2 class="label">Caisse de communauté</h2>
+        <div class="deck" id="deck-chest">
+            <i id="deck-icon-chest" class="fa-solid fa-toolbox"></i>
+        </div>
+    </div>
+    <h1 class="title text-danger">Mon'hop au lit !</h1>
+    <div class="chance-deck">
+        <h2 class="label">Chance</h2>
+        <div class="deck" id="deck-chance">
+            <i id="deck-icon-chance" class="fa-solid fa-question"></i>
+        </div>
+    </div>
+</div>
+{% for case in cases %}
+
+        {% if case.type != null and case.type.id == 5 or case.type.id == 6 or case.type.id == 7 or case.type.id == 9 %}
+        {# si la case est un coin  #}
+
+
+        {% if case.type.id == 5 %}
+        {# Casse départ #}
+<div class="space corner type{{ case.type.id }}">
+    <div class="container">
+        <div class="instructions">Collect $200.00 salary as you pass</div>
+        <div>
+            {% for player in case.players %}
+                <div class="icon-player" style="color: {{ player.color }};">{{ player.icon.value|raw }}</div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="arrow fa fa-long-arrow-left"></div>
+</div>
+
+{# creer la div ligne du bas #}
+<div class="row horizontal-row bottom-row">
+    {% elseif case.type.id == 6%}
+    {# case visite simple/cellule de degrisement #}
+    {# fermer la div ligne du bas #}
+</div>
+<div class="space corner type{{ case.type.id }}">
+    <div class="just">Visite</div>
+    <div style="display: inline">
+        <div>
+            {% for player in case.players %}
+                {% if player.prison == 0 %}
+                    <div class="icon-player" style="color: {{ player.color }};">{{ player.icon.value|raw }}</div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+        <div class="drawing">
+            <div>
+            {% for player in case.players %}
+                {% if player.prison > 0 %}
+                    <div class="icon-player test" style="position: absolute;top: 0;left: 0;color: {{ player.color }};">{{ player.icon.value|raw }}</div>
+                {% endif %}
+            {% endfor %}
+            </div>
+            <div class="container">
+                <div class="name">trop</div>
+                <div class="window">
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                    <i class="person fa-regular fa-face-frown"></i>
+                </div>
+                <div class="name">plein</div>
+            </div>
+        </div>
+        <div class="visiting">D'ivrogne</div>
+    </div>
+
+    {# creer la div ligne de gauche #}
+    <div class="row vertical-row left-row">
+        {% elseif case.type.id == 7%}
+        {# coin happy hour #}
+        {# fermer la div ligne de gauche #}
+    </div>
+    <div class="space corner type{{ case.type.id }}">
+        <div class="container">
+            <div class="name">Happy</div>
+            <i class="drawing fa-solid fa-beer-mug-empty"></i>
+            <div>
+                {% for player in case.players %}
+                    <div class="icon-player" style="color: {{ player.color }};">{{ player.icon.value|raw }}</div>
+                {% endfor %}
+            </div>
+            <div class="name">Hour</div>
+        </div>
+    </div>
+    {# creer la div ligne du haut #}
+
+    <div class="row horizontal-row top-row">
+{% elseif case.type.id == 9%}
+{# coin aller en cellule de degrisement #}
+{# fermer la div ligne du haut #}
+</div>
+    <div class="space corner type{{ case.type.id }}">
+        <div class="container">
+            <div class="name">Ivresse sur</div>
+            <i class="drawing fa-solid fa-truck-medical"></i>
+            <div>
+                {% for player in case.players %}
+                    <div class="icon-player" style="color: {{ player.color }};">{{ player.icon.value|raw }}</div>
+                {% endfor %}
+            </div>
+            <div class="name">voie publique</div>
+        </div>
+    </div>
+{# creer la div ligne de droite #}
+    <div class="row vertical-row right-row">
+        {% endif %}
+        {%else%}
+
+
+            {% if case.type.id == 1 %}
+                {# chance #}
+                <div class="space chance">
+
+                    <div class="container">
+                        <div class="name">Chance</div>
+                        <i class="drawing fa fa-question"></i>
+                        <div>
+                            {% for player in case.players %}
+                                <div class="icon-player" style="color: {{ player.color }};">{{ player.icon.value|raw }}</div>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                </div>
+            {% elseif case.type.id== 2%}
+                {# Caisse communauté #}
+                <div class="space community-chest">
+
+                    <div class="container">
+                        <div class="name">{{ case.name }}</div>
+                        <i class="drawing fa fa-cube"></i>
+                        <div>
+                            {% for player in case.players %}
+                                <div class="icon-player" style="color: {{ player.color }};">{{ player.icon.value|raw }}</div>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                </div>
+            {% elseif case.type.id == 3 %}
+                {# gare #}
+                <div class="space railroad">
+
+                    <div class="container">
+                        <div class="name">{{ case.name }}</div>
+                        <i class="drawing fa-solid fa-martini-glass" ></i>
+                        <div>
+                            {% for player in case.players %}
+                                <div class="icon-player" style="color: {{ player.color }};">{{ player.icon.value|raw }}</div>
+                            {% endfor %}
+                        </div>
+                        <div class="price" {% if case.owner != null %}style="background-color: {{case.owner.color}}"{% endif %}>{{ case.price~" €" }}</div>
+
+                    </div>
+
+                </div>
+            {% elseif case.type.id == 4 and case.property != null %}
+                {# propriété #}
+
+
+                <div class="space property">
+
+                    <div class="container">
+                        <div class="color-bar " style="background-color: {{ case.property.color }}">
+                            {% if case.property.house!=null %}
+
+                                {% if case.property.house == 1 %}
+                                    <p style="background-color: rgb(63,192,0)">20°</p>
+                                {% elseif case.property.house == 2 %}
+                                    <p style="background-color: rgb(100,155,0)">40°</p>
+                                {% elseif case.property.house == 3 %}
+                                    <p style="background-color: rgb(175,80,0)">60°</p>
+                                {% elseif case.property.house == 4 %}
+                                    <p style="background-color: rgb(200,55,0)">80°</p>
+                                {% elseif case.property.house == 5 %}
+                                    <p style="background-color: rgb(255,0,0)">100°</p>
+                                {% endif %}
+
+                            {% endif %}
+                        </div>
+                        <div class="name">{{ case.name }}</div>
+                        <div>
+                            {% for player in case.players %}
+                                <div class="icon-player" style="color: {{ player.color }};">{{ player.icon.value|raw }}</div>
+                            {% endfor %}
+                        </div>
+                        <div class="price" {% if case.owner != null %}style="background-color: {{case.owner.color}}"{% endif %}>{{ case.price~" €" }}</div>
+                    </div>
+
+                </div>
+            {% elseif case.type.id == 8 %}
+                {# impot #}
+                <div class="space fee income-tax">
+
+                    <div class="container">
+                        <div class="name">{{ case.name }}</div>
+                        <div class="diamond"></div>
+                        <div>
+                            {% for player in case.players %}
+                                <div class="icon-player" style="color: {{ player.color }};">{{ player.icon.value|raw }}</div>
+                            {% endfor %}
+                        </div>
+                        <div class="instructions">{{ case.price~" €" }}</div>
+                    </div>
+
+                </div>
+            {% endif %}
+
+        {% endif %}
+
+        {% endfor %}
+    </div>
+
+    {# fermer la div ligne de droite #}
+</div>
+<script>
+    var modal = document.getElementById("myModal");
+    var btnShow = document.getElementById("btn-show");
+    var btnClose = document.getElementById("close");
+    if(modal.style.display==="block"){
+        btnShow.click();
+    }
+    btnClose.onclick = function (){
+        modal.style.display = "none";
+    }
+    var btn = document.getElementById("btn-required");
+
+
+    if( btn !== null && btn.style.display !== 'none'){
+        btnClose.style.display = 'none';
+        btn.addEventListener('click', function(){
+            btnClose.style.display = "block";
+        })
+    }
+    function hideModal(){
+        modal.style.display = "none";
+    }
+    function hide(btn){
+        btn.style.display='none';
+    }
+</script>

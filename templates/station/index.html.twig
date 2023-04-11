@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Station index{% endblock %}
+
+{% block body %}
+    <div class="container">
+    <h1>Station index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Rent1</th>
+                <th>Rent2</th>
+                <th>Rent3</th>
+                <th>Rent4</th>
+                <th>Mortgage</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for station in stations %}
+            <tr>
+                <td>{{ station.id }}</td>
+                <td>{{ station.name }}</td>
+                <td>{{ station.rent1 }}</td>
+                <td>{{ station.rent2 }}</td>
+                <td>{{ station.rent3 }}</td>
+                <td>{{ station.rent4 }}</td>
+                <td>{{ station.mortgage }}</td>
+                <td>
+                    <a href="{{ path('app_station_show', {'id': station.id}) }}">show</a>
+                    <a href="{{ path('app_station_edit', {'id': station.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_station_new') }}">Create new</a>
+    </div>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Player{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1 class="row justify-content-center">Bienvenu {{ app.user.username }}, Vous pouvez créer des joueurs</h1>
+        {{ include('player/_form.html.twig') }}
+        <div class="list-players" style="margin-top: 50px;">
+            <h2>Les participants actuels sont:</h2>
+            {% for player in players %}
+                <div>
+                    <p style="display: inline-block; color: {{ player.color }}">{{player.name}} {{ player.icon.value|raw }}</p>
+                    <form style="display: inline-block" method="post" action="{{ path('app_player_delete', {'id': player.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ player.id) }}">
+                        <button class="btn btn-danger"><i style="color: red; display: inline-block" id="dele-player" class="fa-regular fa-circle-xmark"></i></button>
+                    </form>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock %}

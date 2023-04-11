@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon'Hop au lit ! Les régles de jeu{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('assets/styles/global.css') }}">
+{% endblock %}
+{% block body %}
+
+    <div class="rules-container">
+        <h1>Bienvenue sur le jeu Mon'Hop au lit ! Nous allons vous expliquer les régles de jeu</h1>
+        <div id="config">
+            <h2>Configuration de la partie</h2>
+            <p>Lorsque vous aurez cliqué sur Jouer vous allez être rediriger vers le jeu. Vous allez pouvoir ajouter les joueurs
+                participants. Ensuite vous les verrez afficher sur la plateau avec l'argent que posséde chacun d'entre eux.
+            </p>
+            <p>Rendez-vous sur la page ... pour choisir le pion de chacun des joueurs</p>
+            <p>Maintenant la configuration est finit vous pouvez jouer</p>
+        </div>
+        <div id="rule">
+            <h2>Les régles</h2>
+            <p>Lancer les dés chacun votre tour, celui qui doit jouer est affiché en gris au millieu du plateau</p>
+            <p>Si vous vous réalisez un double vous rejouez, attention au bout du 3ieme double direction la cellule de dégrisement</p>
+            <p>Chaque fois que vous passez par la case départ vous recevez 200$ mais vous devrez boire une gorgée pour le plaisir biensur</p>
+            <p>Si un joueur atterrit sur une case propriété déjà achetée, il doit payer une location au propriétaire de la case. Si un joueur atterrit sur une case compagnie ou gare et qu'elle est déjà achetée, il doit payer une taxe au propriétaire de la case. Sinon vous pourrez choisir de l'acquérir</p>
+            <p>Si un joueur ne peut pas payer une taxe ou une location, il doit vendre des propriétés ou des maisons jusqu'à ce qu'il ait assez d'argent pour couvrir le coût.</p>
+            <p>Si un joueur atterrit sur la case "Ivresse sur la voie publique", il doit aller en cellule de dégrisement et ne pas jouer pendant un tour.</p>
+            <p>Les joueurs peuvent acheter des maisons et des hôtels sur certaines de leurs propriétés. Si un joueur atterrit sur une propriété avec des maisons ou des hôtels, il doit payer une location plus élevée au propriétaire.</p>
+            <p>Le jeu se termine lorsqu'un joueur a acheté toutes les propriétés et a mis tous ses concurrents sur la faillite.</p>
+        </div>
+        <div id="button">
+            <a href="{{ path('app_game') }}">JOUER</a>
+        </div>
+    </div>
+
+{% endblock %}

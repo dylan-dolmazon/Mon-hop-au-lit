@@ -1,0 +1,20 @@
+{% for case in cases %}
+    {% if case.type.id == 3 %}
+        {% set price = case.station.mortgage %}
+
+    {% elseif case.type.id==4 %}
+        {% set price = case.property.mortgage %}
+    {% endif %}
+
+
+    <div style="display: flex; justify-content: space-between; margin-top: 10px">
+        <div>
+            <h2>{{ case.name }}</h2>
+        </div>
+        <div>
+            <button class="button-65" hx-post="{{ path('app_cases_mortgage_player',{cases: case.id, price: price}) }}" hx-target="#resp" style="background-color: #6848a4">Vendre ({{ price }} €)
+            </button>
+        </div>
+    </div>
+    <div id="resp"></div>
+{% endfor %}

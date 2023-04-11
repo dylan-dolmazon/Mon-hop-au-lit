@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Cases index{% endblock %}
+
+{% block body %}
+    <div class="container">
+    <h1>Cases index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Position</th>
+                <th>Type</th>
+                <th>Property</th>
+                <th>Station</th>
+                <th>Price</th>
+                <th>Value</th>
+                <th>Players</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for case in cases %}
+            <tr>
+                <td>{{ case.id }}</td>
+                <td>{{ case.name }}</td>
+                <td>{{ case.position }}</td>
+                <td>{{ case.type.description }}</td>
+                <td>
+                {% if case.property.name is defined %}
+                    {{ case.property.name }}
+                {% endif %}
+                </td>
+                <td>
+                    {% if case.station.name is defined %}
+                        {{ case.station.name }}
+                    {% endif %}
+                </td>
+                <td>{{ case.price }}</td>
+                <td>{{ case.value }}</td>
+                <td>{% if case.players!=null %}
+                        {% for player in case.players %}
+                            {{ player.name~" " }}
+                        {% endfor %}
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="{{ path('app_cases_show', {'id': case.id}) }}">show</a>
+                    <a href="{{ path('app_cases_edit', {'id': case.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_cases_new') }}">Create new</a>
+    </div>
+{% endblock %}

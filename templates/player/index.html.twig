@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Player index{% endblock %}
+
+{% block body %}
+    <div class="container">
+    <h1>Player index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Money</th>
+                <th>Order</th>
+                <th>Icon</th>
+                <th>Color</th>
+                <th>Case</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for player in players %}
+            <tr>
+                <td>{{ player.id }}</td>
+                <td>{{ player.name }}</td>
+                <td>{{ player.money }}</td>
+                <td>{{ player.ordre }}</td>
+                <td>{% if player.icon!=null %}{{ player.icon.value|raw }}{% endif %}</td>
+                <td style="background-color: {{ player.color }}">{{ player.color }}</td>
+                <td>{% if player.cases !=null %}
+                        {{ player.cases.name }}
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="{{ path('app_player_show', {'id': player.id}) }}">show</a>
+                    <a href="{{ path('app_player_edit', {'id': player.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_player_new') }}">Create new</a>
+    </div>
+{% endblock %}

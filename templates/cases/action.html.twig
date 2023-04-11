@@ -1,0 +1,84 @@
+<div class="actions">
+    <button class="button-65" style="background-color: #6848a4" hx-get="{{ path('app_cases_mortgage', {player: player.id}) }}" hx-target="#card-content">Hypothéquer</button>
+    {% if case.type.id==1 %}
+        <button class="button-65" id="btn-required" onclick="hide(this)" style="background-color: yellow" hx-get="{{ path('app_luck_random',{player: player.id}) }}" hx-target="#depart-content">Tirer une carte</button>
+    {% elseif case.type.id== 2 %}
+        <button class="button-65" id="btn-required" onclick="hide(this)" style="background-color: cornflowerblue" hx-get="{{ path('app_luck_random',{player: player.id}) }}"  hx-target="#depart-content">Tirer une carte</button>
+
+    {% elseif case.type.id== 3 %}
+        {# gare #}
+        {% if case.owner == null %}
+            <div id="content-btn-buy">
+                <button class="button-65" id="btn-buy" onclick="hide(this)" style="background-color: blue"
+                        hx-post="{{ path('app_cases_buy',{case: case.id, player: player.id}) }}">
+                    Acheter ({{ case.price }}€)
+                </button>
+            </div>
+        {% else %}
+            {% if case.owner != player and case.owner.prison ==0 %}
+                <button class="button-65" id="btn-required" onclick="hide(this)" style="background-color: red;"
+                        hx-post="{{ path('app_cases_pay',{case: case.id, player: player.id,price:getRent(case)}) }}">
+                    Payer ({{ getRent(case) }}€)
+                </button>
+            {% endif %}
+        {% endif %}
+
+    {% elseif case.type.id== 4 %}
+        {# propriete #}
+        {% if case.owner == null %}
+            <div id="content-btn-buy">
+                <button class="button-65" id="btn-buy" onclick="hide(this)" style="background-color: blue"
+                        hx-post="{{ path('app_cases_buy',{case: case.id, player: player.id}) }}">
+                    Acheter({{ case.price }}€)
+                </button>
+            </div>
+        {% elseif case.owner != player and  case.owner.prison ==0 %}
+
+            <button class="button-65 " id="btn-required" onclick="hide(this)" style="background-color: red;"
+                    hx-post="{{ path('app_cases_pay',{case: case.id, player: player.id,price:getRent(case)}) }}">
+                Payer ({{ getRent(case)}}€)
+            </button>
+
+        {% elseif case.owner == player and  case.property.house <5 %}
+            <button class="button-65" id="btn-add-house" onclick="hide(this)" style="background-color: green;"
+                    hx-post="{{ path('app_property_add_house',{cases: case.id}) }}">
+                {% if case.property.house == 4 %}
+                    Ajouter un hotel ({{ case.property.priceHouse }}€)
+                {% else %}
+                    Ajouter une maison ({{ case.property.priceHouse }}€)
+                {% endif %}
+            </button>
+        {% endif %}
+
+    {% elseif case.type.id== 5 %}
+    {% elseif case.type.id== 6 %}
+        {% if player.prison != 0 %}
+            <button class="button-65" id="btn-pay" onclick="hide(this)" style="background-color: red;"
+                    hx-post="{{ path('app_out_of_jail',{player: player.id}) }}">Payer 1 shot pour sortir
+            </button>
+        {% endif %}
+    {% elseif case.type.id== 7 %}
+    {% elseif case.type.id== 8 %}
+        {% if case.price!=null %}
+            <button class="button-65" id="btn-required" onclick="hide(this)" style="background-color: red;"
+                    hx-post="{{ path('app_cases_pay',{case: case.id, player: player.id, price:case.price}) }}">Payer
+                ({{ case.price }}€)
+            </button>
+
+        {% endif %}
+    {% elseif case.type.id== 9 %}
+        <button class="button-65 " id="btn-required" onclick="hide(this)" style="background-color: saddlebrown;"
+                hx-post="{{ path('app_cases_go_prison',{player: player.id}) }}">
+            Aller en dégrisement
+        </button>
+    {% endif %}
+    <button class="button-65" id="close" style="background-color: black " >Finir le tour</button>
+
+</div>
+<script>
+
+
+
+
+</script>
+

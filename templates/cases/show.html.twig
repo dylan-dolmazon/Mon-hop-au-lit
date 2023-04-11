@@ -1,0 +1,180 @@
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('assets/styles/global.css') }}">
+{% endblock %}
+{% block body %}
+
+
+    <div id="case-show">
+        {% if case.type != null and case.type.id == 5 or case.type.id == 6 or case.type.id == 7 or case.type.id == 9 %}
+            {# si la case est un coin  #}
+
+            {% if case.type.id == 5 %}
+                {# Casse départ #}
+                <div class="case-content">
+                    <p id="depart">{{case.name}}</p>
+                    <div id="i-content"><i id="iconCase" class="fa-solid fa-flag-checkered"></i></div>
+                    <p id="depart-content">Vous repassez par la case départ Voici vos 400€</p>
+                </div>
+                <div class="alcool">
+                    <p>400€ = 4 gorgées</p>
+                </div>
+            {% elseif case.type.id == 6 %}
+                {# case visite simple/cellule de degrisement #}
+                <div class="case-content">
+                    <p id="visit">{{case.name}}</p>
+                    <div id="i-content"><i id="iconCase" class="fa-solid fa-person-running"></i></div>
+                    <p id="visit-content">Vous visitez la cellule de dégrisement</p>
+                </div>
+
+                <div class="alcool">
+                    {% set visiteSimple = false %}
+
+                    {% for player in case.players %}
+                        {% if player.prison==0 %}
+                            {% set visiteSimple = true %}
+                        {% endif %}
+                    {% endfor %}
+
+
+                    {% if visiteSimple %}
+                        {% for player in case.players %}
+                            {% if player.prison!=0 %}
+                                <p>{{ player.name }} doit boire 3 gorgées</p>
+                            {% endif %}
+                        {% endfor %}
+                    {%endif%}
+
+                </div>
+            {% elseif case.type.id == 7 %}
+                {# coin happy hour #}
+                <div class="case-content">
+                    <p id="depart">{{case.name}}</p>
+                    <div id="i-content"><i id="iconCase" class="drawing fa-solid fa-beer-mug-empty"></i></div>
+                    <p id="depart-content">Vous êtes en plein HAPPY HOUR GO GO GO !!!!!</p>
+                </div>
+                <div class="alcool">
+                    <p>3 gorgées chacun à la santé des créateurs</p>
+                </div>
+
+            {% elseif case.type.id == 9 %}
+                {# coin aller en cellule de degrisement #}
+                <div class="case-content">
+                    <p id="ivre">{{case.name}}</p>
+                    <div id="i-content"><i id="iconCase" class="drawing fa-solid fa-beer-mug-empty"></i></div>
+                    <p id="ivre-content">TG et va dessoûler</p>
+                </div>
+            {% endif %}
+        {% elseif case.type.id == 8 %}
+            {# impot #}
+            <div class="case-content">
+                <p id="ivre">{{case.name}}</p>
+                <div id="i-content"><i id="iconCase" class="fa-solid fa-skull-crossbones"></i></div>
+                {% if case.price %}
+                    <p id="ivre-content">Paye {{case.price}}$</p>
+                {% endif %}
+            </div>
+            <div class="alcool">
+                <p>Un shot en plus pour toi</p>
+            </div>
+        {% elseif case.type.id == 3 %}
+            {# gare #}
+            <div class="case-header">
+                <h1>{{case.name}}</h1>
+            </div>
+            <div class="case-content">
+                <div class="prices">
+                    <p class="price-title">Loyer</p>
+                    <p class="price-content">{{case.station.rent1}} $</p>
+                </div>
+                <div class="prices">
+                    <p class="price-title">Si vous avez 2 bars</p>
+                    <p class="price-content">{{case.station.rent2}} $</p>
+                </div>
+                <div class="prices">
+                    <p class="price-title">Si vous avez 3 bars</p>
+                    <p class="price-content">{{case.station.rent3}} $</p>
+                </div>
+                <div class="prices">
+                    <p class="price-title">Si vous avez 4 bars</p>
+                    <p class="price-content">{{case.station.rent4}} $</p>
+                </div>
+            </div>
+            <div class="case-footer">
+                <div class="prices">
+                    <p class="price-title">Prix de l'Hyothéque</p>
+                    <p class="price-content">{{case.station.mortgage}} $</p>
+                </div>
+            </div>
+            {% for player in case.players %}
+            {% if player.turn %}
+                {% if case.owner != player%}
+                    <div class="alcool">
+                        <p>Vous devez boire {{ getNbHouse(case) }} gorgées</p>
+                    </div>
+                {% endif %}
+            {% endif %}
+            {% endfor %}
+
+        {% elseif case.type.id == 1 or case.type.id == 2 %}
+            {# chance #}
+            <div class="case-content">
+                <p id="depart">{{case.name}}</p>
+                {% if case.type.id == 1 %}
+                    <div id="i-content"><i id="iconCase"  class="fa-solid fa-question"></i></div>
+                {% else %}
+
+                    <div id="i-content"><i id="iconCase" class="fa-solid fa-toolbox"></i></div>
+                {% endif %}
+                <p id="depart-content" >{{case.type.description}}</p>
+            </div>
+        {% else %}
+            <div class="case-header" style="background-color: {{case.property.color}}">
+                {% if case.owner!=null %} <p >Chez {{ case.owner.name }}</p>{% endif %}
+                <h1>{{case.name}}</h1>
+            </div>
+            <div class="case-content">
+                <div class="prices">
+                    <p class="price-title">Loyer</p>
+                    <p class="price-content">{{case.property.rent}} $</p>
+                </div>
+                <div class="prices">
+                    <p class="price-title">Avec 20°</p>
+                    <p class="price-content">{{case.property.rent1}} $</p>
+                </div>
+                <div class="prices">
+                    <p class="price-title">Avec 40°</p>
+                    <p class="price-content">{{case.property.rent2}} $</p>
+                </div>
+                <div class="prices">
+                    <p class="price-title">Avec 60°</p>
+                    <p class="price-content">{{case.property.rent3}} $</p>
+                </div>
+                <div class="prices">
+                    <p class="price-title">Avec 80°</p>
+                    <p class="price-content">{{case.property.rent4}} $</p>
+                </div>
+                <div class="prices">
+                    <p class="price-title">Avec 100°</p>
+                    <p class="price-content">{{case.property.rent5}} $</p>
+                </div>
+            </div>
+            <div class="case-footer">
+                <div class="prices">
+                    <p class="price-title">Prix des 20° en plus</p>
+                    <p class="price-content">{{case.property.priceHouse}} $</p>
+                </div>
+                <div class="prices">
+                    <p class="price-title">Prix des 100°</p>
+                    <p class="price-content">{{case.property.priceHouse}} $ (plus 4 maisons)</p>
+                </div>
+                <div class="prices">
+                    <p class="price-title">Prix de l'Hyothéque</p>
+                    <p class="price-content">{{case.property.mortgage}} $</p>
+                </div>
+            </div>
+            <div class="alcool">
+                <p>Vous devez boire {{ getNbHouse(case) }} gorgées</p>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

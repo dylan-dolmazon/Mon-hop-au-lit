@@ -1,0 +1,15 @@
+{
+  "devDependencies": {
+    "@symfony/webpack-encore": "^4.1.2",
+    "bootstrap": "^5.2.3",
+    "webpack-assets-manifest": "^5.1.0",
+    "webpack-notifier": "^1.15.0"
+  },
+  "dependencies": {
+    "htmx.org": "^1.8.4",
+    "sass": "^1.56.1"
+  },
+  "scripts": {
+    "watch": "encore dev --watch"
+  }
+}

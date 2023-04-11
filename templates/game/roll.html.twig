@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% if perdu %}
+        <h1 style="color: red;">ALEXIS FTG VOUS AVEZ PERDU</h1>
+    {% endif %}
+    <p style="font-size: large; color: red;">{% if dice1 == dice2 %}Distribue {{ dice1 }} gorgées{% endif %}</p>
+    <div class="flex">
+    <div class="face">
+        {% for i in 1..dice1  %}
+        <span class="pip"></span>
+        {% endfor %}
+    </div>
+    <div class="face">
+        {% for i in 1..dice2 %}
+            <span class="pip"></span>
+        {% endfor %}
+    </div>
+    </div>
+
+
+
+{% endblock %}
+
+{% block title %}
+
+{% endblock %}
+

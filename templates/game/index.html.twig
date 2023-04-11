@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon'Hop au lit !{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('assets/styles/global.css') }}">
+{% endblock %}
+{% block body %}
+    <a id="rule_icon" href="{{ path('app_game_rules') }}"><i class="fa-solid fa-circle-info" id="icon-info"></i></a>
+    <button hx-target="#dice" hx-post="{{ path('app_game_reset') }}" class="btn-reset">RESET GAME</button>
+
+    <!-- The Modal -->
+   {# modal #}
+
+        <div class="table" id="table">
+        {{ include('game/board.html.twig') }}
+        </div>
+        <div id="game-management">
+            <div id="dice"></div>
+            <button hx-target="#dice" hx-post="{{ path('app_game_roll') }}" class="btn-roll"><i id="dices" class="fa-solid fa-dice"></i>roll</button>
+            <button id="btn-update" hx-target="#table" hx-post="{{ path('app_game_board') }}">maj</button>
+        </div>
+
+
+    <script>
+
+        function updateBoard(){
+            const btnMaj = document.getElementById('btn-update');
+            btnMaj.click();
+            console.log('board updated');
+        }
+
+        const div = document.getElementById('dice');
+        let i =0;
+        const observer = new MutationObserver(function(mutations) {
+
+            if (i==0){
+                updateBoard()
+                i=1
+            }else{
+                i=0;
+            }
+        });
+        observer.observe(div, { childList: true });
+    </script>
+{% endblock %}
